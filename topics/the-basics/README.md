@@ -142,7 +142,7 @@ func f6() (int, string) {   // Multiple return values
 
 * Variadic Function: [playground][vf]
 
-[vf]: https://play.golang.org/p/Mf1-taaR1U2
+[vf]: https://play.golang.org/p/sWII7ikLpjL
 
 # Exercise
 
