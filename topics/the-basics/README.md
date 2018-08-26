@@ -140,6 +140,10 @@ func f6() (int, string) {   // Multiple return values
 }
 ```
 
+* Variadic Function: [playground][vf]
+
+[vf]: https://play.golang.org/p/Mf1-taaR1U2
+
 # Exercise
 
 > Declare a struct type to maintain information about a person.  Declare a
