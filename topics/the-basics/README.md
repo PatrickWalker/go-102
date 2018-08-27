@@ -1,3 +1,4 @@
+
 # The Basics
 
 ## Hello World
@@ -32,6 +33,7 @@ Go is strongly and statically typed: all values have a specific type.
   and `false`
 * Numerics: sets of integer or floating-point numbers of given sizes
 * Strings: an immutable set of string values, which is a sequence of bytes
+* Errors: interface technically but so important in go it's worth calling out imo
 * Arrays: numbered sequence of elements of a single type; length is part of the
   type
 * Slices: window view of a specific underlying array
@@ -106,8 +108,9 @@ field has a name and a type.
 
 ```go
 type rectangle struct {
-	width  int
+	width  int //lower case name means private variable
 	height int
+	Name string //this would be exported
 }
 
 r1 := rectangle{1, 2}       // New rectangle with w + h
@@ -135,15 +138,112 @@ func f5() int {             // Return type declaration
 	return 42
 }
 
+//RETURN VALUES CAN BE DISCARDED AS WELL. ALL FOLLOWING ARE VALID
+//A,B := F6()
+//_,B := F6() - Go won't compile if you have an unused value
+//A,_ := F6()
 func f6() (int, string) {   // Multiple return values
 	return 42, "foo"
 }
+
+FUNC F7() (maxspeed int){      //Named return value
 ```
 
 * Variadic Function: [playground][vf]
 
 [vf]: https://play.golang.org/p/sWII7ikLpjL
 
+## Errors
+
+Go does exception handling differently by not handling exceptions. Rather than exceptions for things like missing file etc and a traditional try catch block style you may be used to in other languages Go uses errors. Errors are defined by any type which implements the following interface
+```go
+type error interface {  
+    Error() string  
+}
+```
+That means it's nilable as well so when a function returns an error type you'll often see (or have already heard this lamented) people checking the return from functions
+```go
+//it's expected that the error is the right most returned value
+val, err := doThatImportantThing()
+if err != nil {
+	fmt.Println("OH SHIT. SO THIS IS HOW WE DIE")
+}
+```
+This is mentioned in more detail by Rob Pike in the [Go Blog](https://blog.golang.org/errors-are-values)
+
+What if you want to handle certain exception types? How would that work here? 
+``` go
+func main() {  
+    result, err := divide(1.0, 0.0)  
+    if err != nil {  
+        switch err.(type) {  
+        case *ErrZeroDivision:  
+            fmt.Println(err.Error())  
+        default:  
+            fmt.Println("What the h* just happened?")  
+        }  
+    }
+
+    fmt.Println(result)  
+}
+
+func divide(a, b float64) (float64, error) {  
+    if b == 0.0 {  
+        return 0.0, NewErrZeroDivision("Cannot divide by zero")  
+    }
+
+    return a / b, nil  
+}
+```
+Should help describe this. We can use types and check for them (ohh thats a week 2 spoiler :o ) 
+[Playground link](https://play.golang.org/p/vATgyXkWIt) and credit to [Sebastian Dahlgren](https://medium.com/@sebdah/go-best-practices-error-handling-2d15e1f0c5ee)
+
+This is one of the first things we're covering which feel weird and a bit different. It may take a bit of getting used to. Some people still hate this.
+
+### Panic
+Exceptions do happen though. Things like a nil pointer or invalid memory address or stack overflow etc cause a a panic in Go. Panics are serious and impact the flow of control of your program essentially. You can throw them yourself but the rule of thumb seems to be that it should be when
+
+ - there's a programmer error (wrong type)
+ - Unrecoverable error. Required config or dep not there and unable to run
+
+ Let's look at an example
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    f()
+    fmt.Println("Returned normally from f.")
+}
+
+func f() {
+	//defer is like a finally call and is also used 
+	//for expensive resources and operations
+    defer func() {
+	    //recover is close to a catch for an exception
+        if r := recover(); r != nil {
+            fmt.Println("Recovered in f", r)
+        }
+    }()
+    fmt.Println("Calling g.")
+    g(0)
+    fmt.Println("Returned normally from g.")
+}
+
+func g(i int) {
+    if i > 3 {
+        fmt.Println("Panicking!")
+        //similar to throw new exception really
+        panic(fmt.Sprintf("%v", i))
+    }
+    defer fmt.Println("Defer in g", i)
+    fmt.Println("Printing in g", i)
+    g(i + 1)
+}
+```
+[Definition of the types here](https://blog.golang.org/defer-panic-and-recover)
 # Exercise
 
 > Declare a struct type to maintain information about a person.  Declare a
