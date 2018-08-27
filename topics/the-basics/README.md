@@ -66,7 +66,85 @@ n5 := float32(123) // float32
 s1 := `Raw string literal`
 s2 := "Interpreted string literal"
 ```
+## Reference Types
 
+### Slices and Arrays
+Arrays in Go are fixed length and of a single type.
+Rather surprisingly for a lot of go newbies they are value type not reference type so when you pass it to a function or assign it to a new value a new copy is made.
+```go
+package main
+
+import "fmt"
+
+func main() {  
+	//type and size definition are part of the array type
+    a := [...]string{"USA", "China", "India", "Germany", "France"}
+    b := a // a copy of a is assigned to b
+    b[0] = "Singapore"
+    fmt.Println("a is ", a)
+    fmt.Println("b is ", b) 
+}
+```
+Slices are pretty similar to Arrays but the size can be changed (sort of)
+```go
+//No size specified in the definition
+var x []float64
+//The above is a nil instance so we should 'make' the instance
+
+//creates a slice with a size and capacity of 5
+x := make([]float64, 5)
+//creates a slice with a size 5 but capacity of 10
+//slices are backed by an array and cannot exceed them
+//but can be smaller
+x := make([]float64, 5, 10)
+
+```
+Another way to create a slice is with the [low:high] syntax
+```go
+arr := [5]float64{1,2,3,4,5}
+//low is the index the new slice starts from. High is not included
+x := arr[0:5]
+//you can omit either value if you want. The below are all equivalent
+x := arr[:5]
+x := arr[0:]
+x := arr[:]
+```
+
+Both the slice and array can be iterated over in an easy way as below using the the range keyword
+```go
+for key, val := range x {
+	//key for slice/array is the index
+	fmt.Println(key,val)
+}
+```
+Inbuilt functions exist to allow you to grow a slice (append) or use a copy function which allows you to shrink a function (low:high could do that too)
+[Great explanation of slices and arrays](https://www.golang-book.com/books/intro/6)
+
+### Maps
+Sometimes known as a hash/hashtable or dictionary a map is an associative datatype. That means you associate a value with a unique key.
+
+```go
+//map[KeyType]ValueType where keyType is comparable 
+//(not slices/maps/funcs)
+//ValueType can even be another map 
+var m map[string]int
+//nil map behaves ok when reading but writing to above panics
+//use this to initialize the object so you can write to it
+m = make(map[string]int)
+//setting a value
+m["route"] = 66
+//getting a value type 1. A missing value returns a zero value
+i := m["route"]
+//a 2 value assignment is available with a bool to indicate if exists
+i, ok := m["route"]
+//you can also range over a map like you do a slice/array
+//Iteration order over a map IS NOT GUARANTEED
+```
+[More detail here](https://blog.golang.org/go-maps-in-action)
+### Pointers
+
+### Channels
+We'll cover these in more detail further in the course
 ## Variable Declaration
 
 ```go
