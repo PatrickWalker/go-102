@@ -269,12 +269,14 @@ func main() {
 		return math.Sqrt(x*x + y*y)
 	}
 	fmt.Println(hypot(5, 12))
-
+	//passing in our locale function
 	fmt.Println(compute(hypot))
+	//passing in an inbuilt function which matches the signature
 	fmt.Println(compute(math.Pow))
 }
 ```
-[vf]: https://play.golang.org/p/sWII7ikLpjL
+ Link: [playground][fv]
+
 
 ## Errors
 
@@ -380,3 +382,5 @@ func g(i int) {
 [tp]: http://play.golang.org/p/ta6oFzjgwn
 [ss]: exercises/basics/solution/basics.go
 [sp]: http://play.golang.org/p/xTcpaKL4KG
+[vf]: https://play.golang.org/p/sWII7ikLpjL
+[fv]: https://tour.golang.org/moretypes/24 
