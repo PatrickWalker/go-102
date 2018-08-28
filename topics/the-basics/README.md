@@ -249,6 +249,31 @@ FUNC F7() (maxspeed int){      //Named return value
 
 * Variadic Function: [playground][vf]
 
+Functions are values in Go. You can set them as instance variables on objects or pass them in as arguments into functions
+```go
+import (
+	"fmt"
+	"math"
+)
+
+//accepts a func which takes two floats and returns one
+//this function also returns a single float too
+func compute(fn func(float64, float64) float64) float64 {
+	//result of the function is returned
+	return fn(3, 4)
+}
+
+func main() {
+	//go offers support for anonymous functions
+	hypot := func(x, y float64) float64 {
+		return math.Sqrt(x*x + y*y)
+	}
+	fmt.Println(hypot(5, 12))
+
+	fmt.Println(compute(hypot))
+	fmt.Println(compute(math.Pow))
+}
+```
 [vf]: https://play.golang.org/p/sWII7ikLpjL
 
 ## Errors
