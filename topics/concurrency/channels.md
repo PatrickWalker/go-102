@@ -61,13 +61,13 @@ material](https://github.com/ardanlabs/gotraining/tree/master/topics/go/concurre
 
 Unbuffered channel:
 
-![Unbuffered](https://raw.githubusercontent.com/ardanlabs/gotraining/blob/master/topics/go/concurrency/channels/unbuffered.png)
+![Unbuffered](https://raw.githubusercontent.com/ardanlabs/gotraining/master/topics/go/concurrency/channels/unbuffered.png)
 
 An unbuffered channel is also commonly referred to as a `synchronous` channel.
 
 Buffered channel:
 
-![Buffered](https://raw.githubusercontent.com/ardanlabs/gotraining/blob/master/topics/go/concurrency/channels/buffered.png)
+![Buffered](https://raw.githubusercontent.com/ardanlabs/gotraining/master/topics/go/concurrency/channels/buffered.png)
 
 It's tempting to use a buffered channel within a single goroutine as a simple
 queue, but it's very easy for your program to become deadlocked without another
