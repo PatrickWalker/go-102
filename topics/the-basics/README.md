@@ -195,6 +195,171 @@ false // boolean
 nil   // pointer, channel, func,
       // interface, map, or slice
 ```
+## Conditional Logic
+Go doesn't have many reserved [keywords](https://golang.org/ref/spec#Keywords) so it won't be a surprise that our options for conditional logic are maybe a little fewer than you're used to. 3 exist  
+
+### for
+For loops look pretty much like how you would expect
+```go
+import "fmt"
+
+func main() {
+	sum := 0
+	//can use it in a while style 
+	// for i< 10 {
+	//parenthesis not required but curly brackets are
+	for i := 0; i < 10; i++ {
+		sum += i
+	}
+	// can also have no statement at all with a for being infinite
+	// for {
+	fmt.Println(sum)
+}
+```
+#### Range
+As previously discussed for and range in combination allows us to iterate over a collection
+
+```go
+package main
+import "fmt"
+
+func main() {
+	names := []string{"hard","tothink","ofnew","names"}
+
+	for key,val := range names {
+		fmt.Println(key,val)
+	}
+	// just the index
+	for index := range names {
+		fmt.Println(index)
+	}
+	// just the value
+	for _,name := range names {
+		fmt.Println(name)
+	}
+}
+```
+[playground](https://play.golang.org/p/3-0xc0fFBB2)
+
+#### Break and Continue
+```go
+package main
+
+import "fmt"
+
+func main() {
+	names := []string{"hard", "tothink", "ofnew", "names"}
+
+	fmt.Println("Breaking necks and cashing cheques")
+	for key, val := range names {
+		if key >= 2 {
+			fmt.Println("we out")
+			//stop processing
+			break
+		}
+		fmt.Println(key, val)
+
+	}
+	//You can also continue to the next iteration of the loop.
+	fmt.Println("Continue is a weird word when you really look at it")
+	for key2, val2 := range names {
+		//If index is divisible by 2
+		if key2%2 == 0 {
+			//skip that one
+			continue
+		}
+		fmt.Println(key2, val2)
+	}
+
+}
+
+```
+
+[playground](https://play.golang.org/p/81_LUoF2_bS)
+
+### if
+[Go By Example](https://gobyexample.com/if-else) has some great stuff so we will steal their if content :) 
+```go
+// Branching with `if` and `else` in Go is
+// straight-forward.
+
+package main
+
+import "fmt"
+
+func main() {
+
+    // Here's a basic example.
+    if 7%2 == 0 {
+        fmt.Println("7 is even")
+    } else {
+        fmt.Println("7 is odd")
+    }
+
+    // You can have an `if` statement without an else.
+    if 8%4 == 0 {
+        fmt.Println("8 is divisible by 4")
+    }
+
+    // A statement can precede conditionals; any variables
+    // declared in this statement are available in all
+    // branches.
+    if num := 9; num < 0 {
+        fmt.Println(num, "is negative")
+    } else if num < 10 {
+        fmt.Println(num, "has 1 digit")
+    } else {
+        fmt.Println(num, "has multiple digits")
+    }
+}
+
+// Note that you don't need parentheses around conditions
+// in Go, but that the braces are required.
+
+```
+
+There is no ternary support. I'm very sorry. 
+
+### switch
+
+```go
+func bestRhiannaSong(title string) {
+	switch title {
+		case "SOS","What's my name":
+			fmt.Println("let me teach you the secret handshake")
+		default:
+			fmt.Println("I'm sorry you are wrong")		
+	}
+
+}
+```
+You can again use a small statement with switch
+```go
+switch dayOfWeek := 6; dayOfWeek {
+	case 1: fmt.Println("Monday")
+	case 2: fmt.Println("Tuesday")
+	case 3: fmt.Println("Wednesday")
+	case 4: fmt.Println("Thursday")
+	case 5: fmt.Println("Friday")
+	case 6: {
+		fmt.Println("Saturday")
+		fmt.Println("Weekend. Yaay!")
+	}
+	case 7: {
+		fmt.Println("Sunday")
+		fmt.Println("Weekend. Yaay!")
+	}
+	default: fmt.Println("Invalid day")
+}
+```
+# Exercise 1
+
+> Oh god. They are going to ask you to do fizzbuzz like this is some sort of job
+> interview. What a jerk...
+> me - hey everyones let's do fizzbuzz (sorry)
+
+* Exercise template: [source][t1s] / [playground][t1p]
+* Example solution: [source][s1s] / [playground][s1p]
 
 ## Structs
 
@@ -369,7 +534,7 @@ func g(i int) {
 }
 ```
 [Definition of the types here](https://blog.golang.org/defer-panic-and-recover)
-# Exercise
+# Exercise 2
 
 > Declare a struct type to maintain information about a person.  Declare a
 > function that creates new values of your type.  Call this function from main
@@ -380,6 +545,10 @@ func g(i int) {
 
 [ts]: exercises/basics/template/basics.go
 [tp]: http://play.golang.org/p/ta6oFzjgwn
+[t1s]: exercises/fizzbuzz/template/basics.go
+[t1p]: https://play.golang.org/p/JZ2QMDv7wDm
+[s1s]: exercises/fizzbuzz/solution/basics.go
+[s1p]: https://play.golang.org/p/OBzs5Ggck92
 [ss]: exercises/basics/solution/basics.go
 [sp]: http://play.golang.org/p/xTcpaKL4KG
 [vf]: https://play.golang.org/p/sWII7ikLpjL
