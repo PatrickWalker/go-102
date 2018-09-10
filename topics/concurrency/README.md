@@ -15,6 +15,10 @@ those pieces simultaneously.  Concurrency is about structure; parallelism is
 about execution.  Often, a concurrent problem solution can be parallelised, but
 we'll focus on concurrency.
 
+[More Info and Discussion on the differences here](https://blog.golang.org/concurrency-is-not-parallelism)
+
+[Slides explaining difference](https://talks.golang.org/2012/waza.slide#32)
+
 ## Sections
 
 * [Goroutines](goroutines.md)
